@@ -4,7 +4,7 @@ namespace ProductApi.Models.Dto
 {
     public class CategoryDto
     {
-        public int Id;
+        public int Id { get; set; }
 
         [Required(ErrorMessage = "El nombre de la categoría es obligatorio.")]
         [StringLength(50, ErrorMessage = "El número máximo de caracteres es de 50.")]

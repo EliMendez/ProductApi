@@ -6,11 +6,11 @@ namespace ProductApi.Repository.Interface
     {
         ICollection<Category> GetCategories();
         Category GetCategory(int categoryId);
-        bool categoryExists(int categoryId);
-        bool categoryExists(string name);
-        bool createCategory(Category category);
-        bool updateCategory(Category category);
-        bool deleteCategory(Category category);
-        bool save();
+        bool CategoryExists(int categoryId);
+        bool CategoryExists(string name);
+        bool CreateCategory(Category category);
+        bool UpdateCategory(Category category);
+        bool DeleteCategory(Category category);
+        bool Save();
     }
 }

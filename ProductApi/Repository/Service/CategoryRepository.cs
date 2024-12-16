@@ -13,29 +13,29 @@ namespace ProductApi.Repository.Service
             _db = db;
         }
 
-        public bool categoryExists(int categoryId)
+        public bool CategoryExists(int categoryId)
         {
             return _db.Categories.Any(c => c.Id == categoryId);
         }
 
-        public bool categoryExists(string name)
+        public bool CategoryExists(string name)
         {
             return _db.Categories.Any(c => c.Name.ToLower().Trim() == name.ToLower().Trim());
         }
 
-        public bool createCategory(Category category)
+        public bool CreateCategory(Category category)
         {
             category.CreatedDate = DateTime.Now;
             _db.Categories.Add(category);
 
-            return save();
+            return Save();
         }
 
-        public bool deleteCategory(Category category)
+        public bool DeleteCategory(Category category)
         {
             _db.Categories.Remove(category);
 
-            return save();
+            return Save();
         }
 
         public ICollection<Category> GetCategories()
@@ -48,17 +48,28 @@ namespace ProductApi.Repository.Service
             return _db.Categories.FirstOrDefault(c => c.Id == categoryId);
         }
 
-        public bool save()
+        public bool Save()
         {
-            return _db.SaveChanges() >= 0 ? true : false;
+            bool valor = _db.SaveChanges() >= 0 ? true : false;
+            return valor;
         }
 
-        public bool updateCategory(Category category)
+        public bool UpdateCategory(Category category)
         {
             category.UpdatedDate = DateTime.Now;
-            _db.Categories.Update(category);
 
-            return save();
+            var categoryExists = _db.Categories.Find(category.Id);
+
+            if (categoryExists != null)
+            {
+                _db.Entry(categoryExists).CurrentValues.SetValues(category);
+            }
+            else
+            {
+                _db.Categories.Update(category);
+            }
+
+            return Save();
         }
     }
 }

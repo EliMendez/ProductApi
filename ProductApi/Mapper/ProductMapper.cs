@@ -9,7 +9,7 @@ namespace ProductApi.Mapper
         public ProductMapper()
         {
             CreateMap<Category, CategoryDto>().ReverseMap(); 
-            CreateMap<Category, CreateCategoryDTO>().ReverseMap();
+            CreateMap<Category, CreateCategoryDto>().ReverseMap();
         }
     }
 }
