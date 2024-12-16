@@ -7,8 +7,7 @@ namespace ProductApi.Models
         [Key]
         public int Id { get; set; }
 
-        [Required(ErrorMessage = "El nombre de la categoría es obligatorio.")]
-        [StringLength(50, ErrorMessage = "El nombre de la categoría excede los 50 caracteres permitidos.")]
+        [Required]
         public string Name { get; set; }
 
         [Required]
