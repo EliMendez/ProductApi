@@ -10,6 +10,8 @@ namespace ProductApi.Mapper
         {
             CreateMap<Category, CategoryDto>().ReverseMap(); 
             CreateMap<Category, CreateCategoryDto>().ReverseMap();
+            CreateMap<Product, ProductDto>().ReverseMap();
+            CreateMap<Product, CreateProductDto>().ReverseMap();
         }
     }
 }
