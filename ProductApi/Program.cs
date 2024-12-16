@@ -18,6 +18,7 @@ builder.Services.AddSwaggerGen();
 
 //Add Repositories
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
+builder.Services.AddScoped<IProductRepository, ProductRepository>();
 
 //Add AutoMapper
 builder.Services.AddAutoMapper(typeof(ProductMapper));

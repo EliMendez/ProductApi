@@ -36,15 +36,6 @@ namespace ProductApi.Models.Dto
         [Required]
         public ProductStatus Status { get; set; }
 
-        [Required]
-        public DateTime CreatedDate { get; set; }
-
-        [Required]
-        public DateTime UpdatedDate { get; set; }
-
-        //Category relationship
         public int CategoryId { get; set; }
-        [ForeignKey("CategoryId")]
-        public Category Category { get; set; }
     }
 }
