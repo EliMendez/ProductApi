@@ -22,17 +22,18 @@ namespace ProductApi.Models.Dto
         [Precision(11, 2)]
         public decimal Price { get; set; }
 
-        [Range(0.01, 100.00, ErrorMessage = "El porcentaje de descuento debe ser entre 0.01 y 100.00")]
+        [Range(0, 100.00, ErrorMessage = "El porcentaje de descuento debe ser entre 0 y 100.00")]
         [Precision(8, 2)]
         public decimal DiscountPercentage { get; set; }
 
         [Required]
         public int Stock { get; set; }
-        public enum ProductStatus { Available, OutOfStock, Discontinued }
+        public enum CreateProductStatus { Available, OutOfStock, Discontinued }
 
         [Required]
-        public ProductStatus Status { get; set; }
+        public CreateProductStatus Status { get; set; }
 
+        [Required]
         public int CategoryId { get; set; }
     }
 }

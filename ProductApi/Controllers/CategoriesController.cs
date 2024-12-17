@@ -20,8 +20,8 @@ namespace ProductApi.Controllers
         }
 
         [HttpGet]
-        [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
         public IActionResult GetCategories()
         {
             var categoryList = _ctRepo.GetCategories();
@@ -37,10 +37,10 @@ namespace ProductApi.Controllers
         }
 
         [HttpGet("{categoryId:int}", Name = "GetCategory")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [ProducesResponseType(StatusCodes.Status200OK)]
         public IActionResult GetCategory(int categoryId)
         {
             var category = _ctRepo.GetCategory(categoryId);
@@ -82,7 +82,7 @@ namespace ProductApi.Controllers
 
             if (!_ctRepo.CreateCategory(category))
             {
-                ModelState.AddModelError("", $"Algo sálio mal guardando el registro con el nombre {category.Name}.");
+                ModelState.AddModelError("", $"Algo sálio mal guardando la categoría con el nombre {category.Name}.");
                 return StatusCode(404, ModelState);
             }
 
