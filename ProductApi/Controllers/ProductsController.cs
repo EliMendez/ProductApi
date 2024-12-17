@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using ProductApi.Models;
 using ProductApi.Models.Dto;
 using ProductApi.Repository.Interface;
@@ -63,7 +64,7 @@ namespace ProductApi.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public IActionResult createProduct([FromBody] CreateProductDto createProductDto) 
+        public IActionResult CreateProduct([FromBody] CreateProductDto createProductDto) 
         {
             if (!ModelState.IsValid)
             {
@@ -98,13 +99,13 @@ namespace ProductApi.Controllers
             return CreatedAtRoute("GetProduct", new {productId = product.Id}, product);
         }
 
-        [HttpPatch("{productId:int}", Name = "updateProduct")]
+        [HttpPatch("{productId:int}", Name = "UpdateProduct")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public IActionResult updateProduct(int productId, [FromBody] ProductDto productDto)
+        public IActionResult UpdateProduct(int productId, [FromBody] ProductDto productDto)
         {
             if (!ModelState.IsValid)
             {
@@ -140,13 +141,13 @@ namespace ProductApi.Controllers
             return NoContent();
         }
 
-        [HttpDelete("{productId:int}", Name = "deleteProduct")]
+        [HttpDelete("{productId:int}", Name = "DeleteProduct")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public IActionResult deleteProduct(int productId)
+        public IActionResult DeleteProduct(int productId)
         {
             if (!_ptRepo.ProductExists(productId))
             {
@@ -162,6 +163,51 @@ namespace ProductApi.Controllers
             }
 
             return NoContent();
+        }
+
+        [HttpGet("GetProductsByCategory/{categoryId:int}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public IActionResult GetProductsByCategory(int categoryId)
+        {
+            var productList = _ptRepo.GetProductsByCategory(categoryId);
+
+            if (productList.IsNullOrEmpty())
+            {
+                return NotFound($"No se encontró productos relacionados con la con categoría con ID: {categoryId}");
+            }
+
+            var productDtoList = new List<ProductDto>();
+
+            foreach (var product in productList) 
+            {
+                productDtoList.Add(_mapper.Map<ProductDto>(product));
+            }
+
+            return Ok(productDtoList);
+        }
+
+        [HttpGet("SearchProducts")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public IActionResult SearchProducts(string title)
+        {
+            try
+            {
+                var result = _ptRepo.SearchProducts(title);
+                if (result.Any())
+                {
+                    return Ok(result);
+                }
+
+                return NotFound($"No se encontró productos que estén relacionados con el título: {title}");
+            }
+            catch(Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, "Ocurrio un error inesperado al recuperar los datos.");
+            }
         }
     }
 }
