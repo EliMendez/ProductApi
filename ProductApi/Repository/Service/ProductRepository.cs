@@ -74,7 +74,16 @@ namespace ProductApi.Repository.Service
         public bool UpdateProduct(Product product)
         {
             product.UpdatedDate = DateTime.Now;
-            _db.Products.Update(product);
+            var productExists = _db.Products.Find(product.Id);
+
+            if (productExists != null)
+            {
+                _db.Entry(productExists).CurrentValues.SetValues(product);
+            }
+            else
+            {
+                _db.Products.Update(product);
+            }
 
             return Save();
         }
