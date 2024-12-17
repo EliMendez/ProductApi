@@ -14,5 +14,8 @@ namespace ProductApi.Models.Dto
 
         [Required(ErrorMessage = "La contraseña es obligatoria.")]
         public string Password { get; set; }
+
+        [Required]
+        public string Role { get; set; }
     }
 }

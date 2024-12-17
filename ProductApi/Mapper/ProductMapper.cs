@@ -21,7 +21,7 @@ namespace ProductApi.Mapper
             CreateMap<User, CreateUserDto>().ReverseMap();
             CreateMap<User, LoginDto>().ReverseMap();
             CreateMap<User, LoginResponseDto>().ReverseMap();
-            CreateMap<User, UserDtoData>().ReverseMap();
+            CreateMap<User, UserDataDto>().ReverseMap();
         }
     }
 }
