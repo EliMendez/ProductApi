@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using ProductApi.Models;
@@ -10,6 +11,7 @@ namespace ProductApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    //[EnableCors("CORSApi")]
     public class UsersController : ControllerBase
     {
         private readonly IUserRepository _usRepo;
