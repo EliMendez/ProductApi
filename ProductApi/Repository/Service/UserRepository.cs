@@ -49,9 +49,8 @@ namespace ProductApi.Repository.Service
             var password = getMd5(loginDto.Password);
 
             var user = _db.Users.FirstOrDefault(
-                u => u.UserName.ToLower() == loginDto.UserName.ToLower() 
-                && u.Password == loginDto.Password
-                );
+                u => u.UserName.ToLower() == loginDto.UserName.ToLower() && u.Password == password
+            );
 
             // Validate if the user does not exist with the correct username and password combination
             if (user == null)
